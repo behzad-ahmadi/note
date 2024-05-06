@@ -12,12 +12,14 @@ import {
 } from 'firebase/auth'
 import { firebaseAuth } from './app/lib/db'
 
-async function getUser(
+export async function getUser(
   email: string,
   password: string
 ): Promise<User | undefined> {
   try {
     const signInMethods = await fetchSignInMethodsForEmail(firebaseAuth, email)
+    console.log('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
+
     if (signInMethods.length === 0) {
       // User does not exist, register them
       const userCredential: UserCredential =
@@ -33,8 +35,12 @@ async function getUser(
       }
     } else {
       // User exists, log them in
-      await signInWithEmailAndPassword(firebaseAuth, email, password)
-      console.log('User logged in successfully')
+      const res = await signInWithEmailAndPassword(
+        firebaseAuth,
+        email,
+        password
+      )
+      console.log(res, 'User logged in successfully')
     }
     // console.log('user data', data)
   } catch (e) {
