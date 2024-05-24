@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { signUp } from '@/app/lib/db'
+// import { signUp } from '@/app/lib/db'
 
 function Page() {
   const [email, setEmail] = React.useState('')
@@ -11,14 +11,14 @@ function Page() {
   const handleForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event?.preventDefault()
 
-    const { data, error } = await signUp(email, password)
+    // const { data, error } = await signUp(email, password)
 
-    if (error) {
-      return console.log(error)
-    }
+    // if (error) {
+    //   return console.log(error)
+    // }
 
     // else successful
-    console.log(data)
+    // console.log(data)
     return router.push('/')
   }
   return (

@@ -1,27 +1,40 @@
+// pages/index.tsx
 'use client'
-import { getUser } from '@/auth'
-import { add, test } from './lib/actions'
-import { GetNote } from './lib/data'
-import { firebaseAuth, logout } from './lib/db'
-import { fetchSignInMethodsForEmail } from 'firebase/auth'
 
-export default function Home() {
-  const getN = async () => {
-    GetNote('cNy9vhewLMhepEFJq2ut')
-  }
+import { useEffect, useState } from 'react'
+import UserForm from './ui/userForm'
+import { fetchUsers } from './lib/actions/userActions'
+
+interface IUser {
+  _id: string
+  name: string
+  email: string
+}
+
+const Home = () => {
+  const [users, setUsers] = useState<IUser[]>([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchUsers()
+      setUsers(data)
+    }
+    fetchData()
+  }, [])
+
   return (
-    <main className='text-center mt-11'>
-      <form action={test}>
-        <button className='btn w-2/3'>Hi ...</button>
-      </form>
-      <button
-        className='btn'
-        onClick={() => {
-          logout()
-        }}
-      >
-        Logout
-      </button>
-    </main>
+    <div>
+      <h1>User List</h1>
+      <ul>
+        {users.map(user => (
+          <li key={user._id}>
+            {user.name} ({user.email})
+          </li>
+        ))}
+      </ul>
+      <UserForm />
+    </div>
   )
 }
+
+export default Home
