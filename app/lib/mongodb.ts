@@ -1,7 +1,7 @@
 // lib/mongodb.ts
 import mongoose from 'mongoose'
 
-mongoose.set('debug', true)
+// mongoose.set('debug', true)
 
 const connectMongo = async () => {
   if (mongoose.connection.readyState >= 1) {

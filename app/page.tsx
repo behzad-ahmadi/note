@@ -1,9 +1,10 @@
 // pages/index.tsx
-'use client'
+// 'use client'
 
 import { useEffect, useState } from 'react'
 import UserForm from './ui/userForm'
 import { fetchUsers } from './lib/actions/userActions'
+// import useSWR from 'swr'
 
 interface IUser {
   _id: string
@@ -11,28 +12,23 @@ interface IUser {
   email: string
 }
 
-const Home = () => {
-  const [users, setUsers] = useState<IUser[]>([])
+const Home = async () => {
+  // const { data, isLoading, error, mutate } = useSWR('fetchUsers', fetchUsers)
+  // console.log('da', data)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await fetchUsers()
-      setUsers(data)
-    }
-    fetchData()
-  }, [])
+  const data = await fetchUsers()
 
   return (
     <div>
       <h1>User List</h1>
       <ul>
-        {users.map(user => (
+        {data?.map(user => (
           <li key={user._id}>
             {user.name} ({user.email})
           </li>
         ))}
       </ul>
-      <UserForm />
+      <UserForm  />
     </div>
   )
 }
