@@ -1,21 +1,32 @@
-// lib/mongodb.ts
+// lib/mongoose.ts
 import mongoose from 'mongoose'
 
-// mongoose.set('debug', true)
+const MONGODB_URI = process.env.MONGODB_URI as string
 
-const connectMongo = async () => {
-  if (mongoose.connection.readyState >= 1) {
-    console.log('Already connected to MongoDB')
-    return
-  }
-  try {
-    console.log('Connecting to MongoDB...')
-    await mongoose.connect(process.env.MONGODB_URI!)
-    console.log('Connected to MongoDB')
-  } catch (error) {
-    console.error('Error connecting to MongoDB:', error)
-    throw error
-  }
+if (!MONGODB_URI) {
+  throw new Error(
+    'Please define the MONGODB_URI environment variable inside .env.local'
+  )
 }
 
-export default connectMongo
+let cached = global.mongoose
+
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null }
+}
+
+async function connectToDatabase() {
+  if (cached.conn) {
+    return cached.conn
+  }
+
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then(mongoose => {
+      return mongoose
+    })
+  }
+  cached.conn = await cached.promise
+  return cached.conn
+}
+
+export default connectToDatabase
