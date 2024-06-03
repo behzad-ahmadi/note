@@ -13,6 +13,7 @@ interface INote extends Document {
   updatedAt: Date
   commonlyUsed: boolean
   tasks: ITask[]
+  hashtags: string[]
 }
 
 const taskSchema = new Schema<ITask>({
@@ -29,6 +30,7 @@ const noteSchema = new Schema<INote>(
     updatedAt: { type: Date, default: Date.now },
     commonlyUsed: { type: Boolean, default: false },
     tasks: [taskSchema],
+    hashtags: { type: [String], required: false },
   },
   { timestamps: true }
 )
