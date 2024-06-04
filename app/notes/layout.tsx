@@ -1,3 +1,10 @@
+import MainNavbar from '@/app/ui/mainNavbar'
+
 export default function Layout({ children }: { children: React.ReactNode }) {
-  return <div className='mx-6'>{children}</div>
+  return (
+    <>
+      <MainNavbar />
+      <div className='mx-6 mt-20'>{children}</div>
+    </>
+  )
 }

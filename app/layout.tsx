@@ -18,11 +18,7 @@ export default function RootLayout({
   return (
     <html lang='en' data-theme='dim'>
       <body className={inter.className}>
-        <main className='pt-16'>
-          <MainNavbar />
-
-          {children}
-        </main>
+        <main className='pt-0'>{children}</main>
       </body>
     </html>
   )
