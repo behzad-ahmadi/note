@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.0.18",
+    "autoprefixer": "^10.4.19",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "mongoose": "^8.4.0",
