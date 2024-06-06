@@ -8,7 +8,6 @@ export default function Notif() {
       const title = 'Hello!'
       const options = {
         body: 'This is a notification from your Next.js app.',
-        icon: '/icon.png', // Optional: specify an icon
       }
       showNotification(title, options)
     }
