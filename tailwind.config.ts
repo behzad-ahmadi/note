@@ -5,6 +5,9 @@ const config: Config = {
 
   plugins: [require('daisyui')],
   daisyui: {
+    theme: {
+      extend: {},
+    },
     // themes: [
     //   'light',
     //   'dark',
