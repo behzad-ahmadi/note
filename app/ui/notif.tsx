@@ -19,6 +19,8 @@ export default function Notif() {
 
 export const showNotification = (title: string, options: any) => {
   // Check if the browser supports notifications
+  if (typeof window == 'undefined') return
+
   if (!('Notification' in window)) {
     alert('This browser does not support desktop notification')
     return
