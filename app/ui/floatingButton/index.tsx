@@ -3,20 +3,28 @@ import { createNote } from '@/app/lib/actions/noteActions'
 import { INoteInput } from '@/app/lib/models/note'
 
 export default function FloatingButton() {
-  const newNote: INoteInput = {
-    title: 'a',
-    content: 'v',
-    commonlyUsed: false,
-    tasks: [],
-    hashtags: [],
-  }
-
   const handleClick = async () => {
     try {
-      const res = await createNote(newNote)
-      console.log('res', res)
-    } catch (error) {
-      console.log('create note error', error)
+      // Define a new empty note with the type INoteInput
+      const newNote: INoteInput = {
+        title: '1',
+        content: '11',
+        commonlyUsed: false,
+        tasks: [],
+        hashtags: [],
+      }
+
+      // Create the note
+      const result = await createNote(newNote)
+      console.log('Created Note:', result)
+    } catch (error: any) {
+      console.error('Error creating note:', error?.message) // Log the error message
+      if (error?.errors) {
+        console.error('Validation errors:', error?.errors) // Log the validation errors
+      }
+    } finally {
+      // Close the mongoose connection
+      // mongoose.connection.close();
     }
   }
 

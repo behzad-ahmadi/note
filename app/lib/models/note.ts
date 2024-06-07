@@ -18,11 +18,14 @@ export interface INote extends Document {
 }
 
 export interface INoteInput {
+  _id?: string
   title: string
   content: string
   commonlyUsed: boolean
   tasks: ITask[]
   hashtags: string[]
+  createdAt?: string
+  updatedAt?: string
 }
 
 const taskSchema = new Schema<ITask>({

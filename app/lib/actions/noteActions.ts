@@ -1,32 +1,24 @@
 'use server'
 
+import { IError, handleServerError } from '@/app/lib/actions/errorHandler'
 import Note, { INote, INoteInput, ITask } from '@/app/lib/models/note'
 import connectToDatabase from '@/app/lib/mongodb'
 import { Types } from 'mongoose'
 
-// Create a new note
-export const createNote = async (noteData: INoteInput) => {
+export const createNote = async (
+  noteData: INoteInput
+): Promise<INote | IError> => {
   try {
     await connectToDatabase()
 
-    // Validate required fields
-    const errors: Partial<Record<keyof INoteInput, string>> = {}
-    if (!noteData.title) {
-      errors.title = 'Title is required'
-    }
-    if (!noteData.content) {
-      errors.content = 'Content is required'
-    }
-
-    if (Object.keys(errors).length > 0) {
-      throw errors
-    }
-
-    const note = new Note(noteData)
-    return await note.save()
+    const note = new Note<INoteInput>(noteData)
+    console.log('note', note)
+    await note.save()
+    return note.toObject()
   } catch (error) {
-    console.error('Error creating note:', error)
-    return error // Throw the original error object
+    const err = handleServerError(error as Error)
+    console.error('Error creating note:', err)
+    return err
   }
 }
 

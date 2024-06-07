@@ -1,6 +1,7 @@
 // pages/index.tsx
 'use server'
 import { getAllNotes } from '@/app/lib/actions/noteActions'
+import { INote, INoteInput } from '@/app/lib/models/note'
 import FloatingButton from '@/app/ui/floatingButton'
 import NoteCard from '@/app/ui/noteCard'
 
@@ -11,38 +12,16 @@ export default async function Notes() {
     <div>
       {/* <SearchBar className='mt-4' /> */}
       <div className='flex flex-col gap-y-4 mt-4 overflow-y-auto'>
-        <NoteCard
-          id={1}
-          title='Task Management App UI Design'
-          date='28 May'
-          content='In publishing and graphic design, Lorem ipsum is a placeholder text commonly used.'
-          status='now'
-          time='Just Now'
-        />
-        <NoteCard
-          id={2}
-          title='Shopping List'
-          date='12 May'
-          content='Apple, Mango Juice, Banana 5 pcs with, ButterMilk'
-          status='past'
-          time='1h ago'
-        />
-        <NoteCard
-          id={3}
-          title='Shopping List'
-          date='12 May'
-          content='Apple, Mango Juice, Banana 5 pcs with, ButterMilk'
-          status='past'
-          time='1h ago'
-        />
-        <NoteCard
-          id={4}
-          title='Shopping List'
-          date='12 May'
-          content='Apple, Mango Juice, Banana 5 pcs with, ButterMilk'
-          status='past'
-          time='1h ago'
-        />
+        {notes?.map((note: INoteInput) => (
+          <NoteCard
+            id={note?._id?.toString() || ''}
+            title={note.title}
+            date={''}
+            content={note.content}
+            status={'past'}
+            time={note.createdAt?.toLocaleString() || ''}
+          />
+        ))}
       </div>
       <FloatingButton />
     </div>
