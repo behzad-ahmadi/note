@@ -1,12 +1,13 @@
 import { Schema, model, Document } from 'mongoose'
+import mongoose from 'mongoose'
 
-interface ITask {
+export interface ITask {
   description: string
   completed: boolean
   priority: number
 }
 
-interface INote extends Document {
+export interface INote extends Document {
   title: string
   content: string
   createdAt: Date
@@ -16,8 +17,16 @@ interface INote extends Document {
   hashtags: string[]
 }
 
+export interface INoteInput {
+  title: string
+  content: string
+  commonlyUsed: boolean
+  tasks: ITask[]
+  hashtags: string[]
+}
+
 const taskSchema = new Schema<ITask>({
-  description: { type: String, required: true },
+  description: { type: String, required: false },
   completed: { type: Boolean, default: false },
   priority: { type: Number, default: 0 },
 })
@@ -35,6 +44,6 @@ const noteSchema = new Schema<INote>(
   { timestamps: true }
 )
 
-const Note = model<INote>('Note', noteSchema)
+const Note = mongoose.models?.Note || model<INote>('Note', noteSchema)
 
 export default Note
