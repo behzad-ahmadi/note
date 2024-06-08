@@ -1,7 +1,7 @@
 // pages/index.tsx
 'use server'
 import { getAllNotes } from '@/app/lib/actions/noteActions'
-import { INoteDocument, INote } from '@/app/lib/models/note'
+import { INote } from '@/app/lib/models/note'
 import FloatingButton from '@/app/ui/floatingButton'
 import NoteCard from '@/app/ui/noteCard'
 
