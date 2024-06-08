@@ -4,7 +4,7 @@ import Notif from '@/app/ui/notif'
 export default function Home() {
   return (
     <div>
-      <Notes />
+      {/* <Notes /> */}s
       <Notif />
     </div>
   )
