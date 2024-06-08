@@ -16,7 +16,7 @@ export default function Notif() {
       }
 
       if ('serviceWorker' in navigator) {
-        const registration = await navigator.serviceWorker.getRegistration()
+        const registration = await navigator.serviceWorker.register('./sw.js')
         if (registration) {
           showNotificationWithServiceWorker(title, options, registration)
         } else {
@@ -33,22 +33,22 @@ export default function Notif() {
   return <></>
 }
 
-const showNotificationWithServiceWorker = (
+const showNotificationWithServiceWorker = async (
   title: string,
   options: NotificationOptions,
   registration: ServiceWorkerRegistration
 ) => {
-  // Check if notification permissions have already been granted
   if (Notification.permission === 'granted') {
-    registration.showNotification(title, options)
-  }
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== 'denied') {
-    Notification.requestPermission().then(permission => {
-      if (permission === 'granted') {
-        registration.showNotification(title, options)
-      }
-    })
+    if (registration.active) {
+      registration.active.postMessage({ title, options })
+    } else {
+      registration.showNotification(title, options)
+    }
+  } else if (Notification.permission !== 'denied') {
+    const permission = await Notification.requestPermission()
+    if (permission === 'granted') {
+      registration.showNotification(title, options)
+    }
   }
 }
 
@@ -56,7 +56,6 @@ export const showNotification = (
   title: string,
   options: NotificationOptions
 ) => {
-  // Check if the browser supports notifications
   if (typeof window == 'undefined') return
 
   if (!('Notification' in window)) {
@@ -64,12 +63,9 @@ export const showNotification = (
     return
   }
 
-  // Check if notification permissions have already been granted
   if (Notification.permission === 'granted') {
     new Notification(title, options)
-  }
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== 'denied') {
+  } else if (Notification.permission !== 'denied') {
     Notification.requestPermission().then(permission => {
       if (permission === 'granted') {
         new Notification(title, options)
