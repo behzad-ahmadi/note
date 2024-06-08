@@ -7,7 +7,7 @@ export interface ITask {
   priority: number
 }
 
-export interface INote extends Document {
+export interface INoteDocument extends Document {
   title: string
   content: string
   createdAt: Date
@@ -17,8 +17,8 @@ export interface INote extends Document {
   hashtags: string[]
 }
 
-export interface INoteInput {
-  _id?: string
+export interface INote {
+  id: string
   title: string
   content: string
   commonlyUsed: boolean
@@ -34,7 +34,7 @@ const taskSchema = new Schema<ITask>({
   priority: { type: Number, default: 0 },
 })
 
-const noteSchema = new Schema<INote>(
+const noteSchema = new Schema<INoteDocument>(
   {
     title: { type: String, required: true },
     content: { type: String, required: true },
@@ -47,6 +47,6 @@ const noteSchema = new Schema<INote>(
   { timestamps: true }
 )
 
-const Note = mongoose.models?.Note || model<INote>('Note', noteSchema)
+const Note = mongoose.models?.Note || model<INoteDocument>('Note', noteSchema)
 
 export default Note

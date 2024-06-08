@@ -1,7 +1,7 @@
 // pages/index.tsx
 'use server'
 import { getAllNotes } from '@/app/lib/actions/noteActions'
-import { INote, INoteInput } from '@/app/lib/models/note'
+import { INoteDocument, INote } from '@/app/lib/models/note'
 import FloatingButton from '@/app/ui/floatingButton'
 import NoteCard from '@/app/ui/noteCard'
 
@@ -12,10 +12,10 @@ export default async function Notes() {
     <div>
       {/* <SearchBar className='mt-4' /> */}
       <div className='flex flex-col gap-y-4 mt-4 overflow-y-auto'>
-        {notes?.map((note: INoteInput, index) => (
+        {notes?.map((note: INote, index) => (
           <NoteCard
             key={index}
-            id={note?._id?.toString() || ''}
+            id={note.id}
             title={note.title}
             date={''}
             content={note.content}

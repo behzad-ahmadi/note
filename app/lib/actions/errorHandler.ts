@@ -20,12 +20,12 @@ const handleServerError = (error: Error): IError => {
   }
   if ((error as any).name === 'MongoError') {
     return {
-      message: 'Database error occurred',
+      message: 'Database error occurred ' + error.message,
       status: 500,
     }
   }
   return {
-    message: 'An unknown error occurred',
+    message: 'Unknown message ' + error.message,
     status: 500,
   }
 }

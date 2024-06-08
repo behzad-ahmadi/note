@@ -1,12 +1,12 @@
 'use client'
 import { createNote } from '@/app/lib/actions/noteActions'
-import { INoteInput } from '@/app/lib/models/note'
+import { INote } from '@/app/lib/models/note'
 
 export default function FloatingButton() {
   const handleClick = async () => {
     try {
       // Define a new empty note with the type INoteInput
-      const newNote: INoteInput = {
+      const newNote: INote = {
         title: '1',
         content: '11',
         commonlyUsed: false,

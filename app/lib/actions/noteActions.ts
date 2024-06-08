@@ -1,22 +1,29 @@
 'use server'
 
 import { IError, handleServerError } from '@/app/lib/actions/errorHandler'
-import Note, { INote, INoteInput, ITask } from '@/app/lib/models/note'
+import Note, { INoteDocument, INote, ITask } from '@/app/lib/models/note'
 import connectToDatabase from '@/app/lib/mongodb'
 import { Types } from 'mongoose'
 import { revalidatePath } from 'next/cache'
 
-export const createNote = async (
-  noteData: INoteInput
-): Promise<INote | IError> => {
+export const createNote = async (noteData: INote): Promise<INote | IError> => {
   try {
     await connectToDatabase()
 
-    const note = new Note<INoteInput>(noteData)
+    const note = new Note<INote>(noteData)
     console.log('note', note)
     await note.save()
     revalidatePath('/notes')
-    return note.toObject()
+    revalidatePath(`/notes${note?._id.toString()}`)
+
+    const plainNote = {
+      ...noteData, // Include only INoteInput fields
+      id: note._id.toString(), // Convert ObjectId to string
+      createdAt: note.createdAt.toISOString(), // Convert Date to string
+      updatedAt: note.updatedAt.toISOString(), // Convert Date to string
+    }
+
+    return plainNote
   } catch (error) {
     const err = handleServerError(error as Error)
     console.error('Error creating note:', err)
@@ -33,7 +40,7 @@ export const getNoteById = async (id: string) => {
 // Update a note by its ID
 export const updateNoteById = async (
   id: string,
-  updateData: Partial<INote>
+  updateData: Partial<INoteDocument>
 ) => {
   await connectToDatabase()
   return await Note.findByIdAndUpdate(id, updateData, { new: true })
