@@ -7,6 +7,7 @@ export default function FloatingButton() {
     try {
       // Define a new empty note with the type INoteInput
       const newNote: INote = {
+        id: '',
         title: '1',
         content: '11',
         commonlyUsed: false,
