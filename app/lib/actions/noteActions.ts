@@ -4,6 +4,7 @@ import { IError, handleServerError } from '@/app/lib/actions/errorHandler'
 import Note, { INote, INoteInput, ITask } from '@/app/lib/models/note'
 import connectToDatabase from '@/app/lib/mongodb'
 import { Types } from 'mongoose'
+import { revalidatePath } from 'next/cache'
 
 export const createNote = async (
   noteData: INoteInput
@@ -14,6 +15,7 @@ export const createNote = async (
     const note = new Note<INoteInput>(noteData)
     console.log('note', note)
     await note.save()
+    revalidatePath('/notes')
     return note.toObject()
   } catch (error) {
     const err = handleServerError(error as Error)
