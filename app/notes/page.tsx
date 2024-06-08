@@ -12,7 +12,7 @@ export default async function Notes() {
     <div>
       {/* <SearchBar className='mt-4' /> */}
       <div className='flex flex-col gap-y-4 mt-4 overflow-y-auto'>
-        {/* {notes?.map((note: INoteInput, index) => (
+        {notes?.map((note: INoteInput, index) => (
           <NoteCard
             key={index}
             id={note?._id?.toString() || ''}
@@ -22,7 +22,7 @@ export default async function Notes() {
             status={'past'}
             time={note.createdAt?.toLocaleString() || ''}
           />
-        ))} */}
+        ))}
       </div>
       <FloatingButton />
     </div>
