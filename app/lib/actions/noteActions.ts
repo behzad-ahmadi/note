@@ -14,7 +14,7 @@ export const createNote = async (noteData: INote): Promise<INote | IError> => {
     console.log('note', note)
     await note.save()
     revalidatePath('/notes')
-    revalidatePath(`/notes${note?._id.toString()}`)
+    revalidatePath(`/notes${note.id}`)
 
     const plainNote = {
       ...noteData, // Include only INoteInput fields
