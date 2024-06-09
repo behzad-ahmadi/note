@@ -41,41 +41,11 @@ const Home = () => {
         const title = 'Hello, Next.js!'
         const options = {
           body: 'This is a notification with an image.',
-          icon: '/image.png', // Ensure this image exists in the public folder
+          icon: '/vercel.svg', // Ensure this image exists in the public folder
         }
         registration.showNotification(title, options)
       })
     }
-  }
-
-  const subscribeToPush = () => {
-    navigator.serviceWorker.ready.then(registration => {
-      registration.pushManager
-        .subscribe({
-          userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array('YOUR_PUBLIC_VAPID_KEY'),
-        })
-        .then(subscription => {
-          console.log('User is subscribed:', subscription)
-          // Send subscription to your server to save it
-        })
-        .catch(error => {
-          console.error('Failed to subscribe the user: ', error)
-        })
-    })
-  }
-
-  const urlBase64ToUint8Array = (base64String: string) => {
-    const padding = '='.repeat((4 - (base64String.length % 4)) % 4)
-    const base64 = (base64String + padding)
-      .replace(/-/g, '+')
-      .replace(/_/g, '/')
-    const rawData = window.atob(base64)
-    const outputArray = new Uint8Array(rawData.length)
-    for (let i = 0; i < rawData.length; ++i) {
-      outputArray[i] = rawData.charCodeAt(i)
-    }
-    return outputArray
   }
 
   return (
@@ -87,9 +57,6 @@ const Home = () => {
         </button>
         <button className='btn' onClick={showNotification}>
           Show Notification
-        </button>
-        <button className='btn' onClick={subscribeToPush}>
-          Subscribe to Push
         </button>
       </div>
     </div>
