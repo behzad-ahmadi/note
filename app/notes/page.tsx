@@ -8,13 +8,21 @@ import moment from 'moment-jalaali'
 // import 'moment/locale/fa' // Import Persian locale
 
 export default async function Notes() {
-  const notes = await getAllNotes()
+  let notes
+  let error
+  try {
+    notes = await getAllNotes()
+  } catch (err: any) {
+    console.log('error', err)
+    error = err?.message
+  }
   // moment.locale('fa')
   // console.log('note', notes)
   return (
     <div>
       {/* <SearchBar className='mt-4' /> */}
       <div className='flex flex-col gap-y-4 mt-4 overflow-y-auto'>
+        err:{error}
         {notes?.map((note: INote, index) => (
           <NoteCard
             key={index}
