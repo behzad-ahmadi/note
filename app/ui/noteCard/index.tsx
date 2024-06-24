@@ -2,6 +2,7 @@ import { deleteNoteById } from '@/app/lib/actions/noteActions'
 import Link from 'next/link'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/app/ui/button'
+import DeleteButton from '@/app/ui/buttons/cardDeleteButton'
 
 type NoteCardProps = {
   id: string
@@ -25,7 +26,7 @@ export default function NoteCard({
       <div className='card-body p-3'>
         <div className='flex justify-between'>
           <span className='text-gray-500 text-sm'>{date}</span>
-          <Delbtn id={id} />
+          <DeleteButton id={id} />
         </div>
         <Link href={`/notes/${id}`}>
           <h2 className='card-title'>{title}</h2>
@@ -41,19 +42,5 @@ export default function NoteCard({
         </Link>
       </div>
     </div>
-  )
-}
-
-function Delbtn({ id }: { id: string }) {
-  const handleDelete = async () => {
-    const res = await deleteNoteById(id)
-  }
-
-  return (
-    <form action={handleDelete}>
-      <button className='text-gray-500 cursor-pointer focus:outline-none'>
-        <TrashIcon className='w-5 h-5' />
-      </button>
-    </form>
   )
 }

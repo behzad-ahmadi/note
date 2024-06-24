@@ -47,9 +47,26 @@ export const updateNoteById = async (
 }
 
 // Delete a note by its ID
-export const deleteNoteById = async (id: string) => {
-  await connectToDatabase()
-  return await Note.findByIdAndDelete(id)
+export const deleteNoteById = async (
+  id: string
+): Promise<{ success: boolean } | IError> => {
+  try {
+    await connectToDatabase()
+
+    const deletedNote = await Note.findByIdAndDelete(id)
+    if (!deletedNote) {
+      throw new Error('Note not found')
+    }
+
+    revalidatePath('/notes')
+    revalidatePath(`/notes/${id}`)
+
+    return { success: true }
+  } catch (error) {
+    const err = handleServerError(error as Error)
+    console.error('Error deleting note:', err)
+    return err
+  }
 }
 
 // Get all notes
