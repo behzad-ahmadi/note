@@ -8,16 +8,17 @@ import moment from 'moment-jalaali'
 // import 'moment/locale/fa' // Import Persian locale
 
 export default async function Notes() {
-  let notes
+  let notes: INote[] = []
   let error
   try {
-    notes = await getAllNotes()
+    notes = (await getAllNotes()) as INote[]
   } catch (err: any) {
     console.log('error', err)
     error = err?.message
   }
   // moment.locale('fa')
-  // console.log('note', notes)
+  console.log('note', notes)
+
   return (
     <div>
       {/* <SearchBar className='mt-4' /> */}

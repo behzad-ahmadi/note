@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 export default function DeleteButton({ id }: { id: string }) {
   return (
-    <Link href={`/notes/${id}`} className=''>
+    <Link href={`/notes/${id}`}>
       <PencilSquareIcon className='w-5 h-5' />
     </Link>
   )

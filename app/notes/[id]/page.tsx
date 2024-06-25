@@ -1,67 +1,26 @@
-'use client'
+import { getNoteById } from '@/app/lib/actions/noteActions'
+import { INote } from '@/app/lib/models/note'
+import NoteEditForm from '@/app/ui/noteEditForm'
 
-import React, { useState } from 'react'
-import Content from '@/app/ui/content'
-import DateDisplay from '@/app/ui/dateDisplay'
-import Tags from '@/app/ui/tags'
-import TextEditor from '@/app/ui/textEditor'
-import Title from '@/app/ui/title'
-import Toolbar from '@/app/ui/toolbar'
-import { useFormState } from 'react-dom'
-
-// interface NoteProps {
-//   params: { id: string }
-//   searchParams: { [key: string]: string | string[] | undefined }
-// }
-
-interface FormData {
-  title: string
-  content: string
-  tags: string[]
-}
-
-const Note = () => {
-  const [errorMessage, dispatch] = useFormState(() => {}, undefined)
-  const [content, setContent] = useState<string>('')
-  const [title, setTitle] = useState<string>('')
-  const [tags, setTags] = useState<string[]>([''])
-
-  const handleTitleChange = (title: string) => {
-    setTitle(title)
-  }
-
-  const handleContentChange = (content: string) => {
-    // formData.content = content
-    setContent(content)
-  }
-
-  const handleTagsChange = (tags: string[]) => {
-    setTags(tags)
-  }
-
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    // Handle form submission logic here
-    console.log('Form submitted:', { title, content, tags })
-  }
-
-  return (
-    <form action={dispatch} className=''>
-      <DateDisplay />
-      <Title value={title} />
-      {/* <Content value={content} /> */}
-      <Tags value={tags} />
-      <TextEditor
-        className='mt-4'
-        value={content}
-        onChange={handleContentChange}
+export default async function Note({ params }: { params: { id: string } }) {
+  try {
+    const note: INote = await getNoteById(params.id)
+    console.log('no', note)
+    return (
+      <NoteEditForm
+        id={note.id}
+        commonlyUsed={note.commonlyUsed}
+        content={note.content}
+        hashtags={note.hashtags}
+        tasks={note.tasks}
+        title={note.title}
+        createdAt={note.createdAt}
+        updatedAt={note.updatedAt}
       />
+    )
+  } catch (error) {
+    console.log('err', error)
+  }
 
-      <button type='submit' className='btn'>
-        Submit
-      </button>
-    </form>
-  )
+  return <></>
 }
-
-export default Note

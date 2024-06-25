@@ -47,6 +47,21 @@ const noteSchema = new Schema<INoteDocument>(
   { timestamps: true }
 )
 
+// Add transformation functions to omit __v field
+noteSchema.set('toJSON', {
+  transform: (doc, ret, options) => {
+    delete ret.__v
+    return ret
+  },
+})
+
+noteSchema.set('toObject', {
+  transform: (doc, ret, options) => {
+    delete ret.__v
+    return ret
+  },
+})
+
 const Note = mongoose.models?.Note || model<INoteDocument>('Note', noteSchema)
 
 export default Note
