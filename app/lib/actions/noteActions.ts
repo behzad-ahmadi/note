@@ -11,10 +11,10 @@ export const createNote = async (noteData: INote): Promise<INote | IError> => {
     await connectToDatabase()
 
     const note = new Note<INote>(noteData)
-    console.log('note', note)
+    // console.log('note', note)
     await note.save()
     revalidatePath('/notes')
-    revalidatePath(`/notes${note.id}`)
+    revalidatePath(`/notes/${note.id}`)
 
     const plainNote = {
       ...noteData, // Include only INoteInput fields
