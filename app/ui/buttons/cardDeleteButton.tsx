@@ -21,7 +21,7 @@ export default function DeleteButton({ id }: { id: string }) {
 
   return (
     <button
-      className={`text-gray-500 cursor-pointer focus:outline-none ${loading && 'loading-ball'}`}
+      className={`cursor-pointer focus:outline-none ${loading && 'loading-ball'}`}
       disabled={loading}
       onClick={handleClick}
     >

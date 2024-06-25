@@ -5,7 +5,7 @@ import { INote } from '@/app/lib/models/note'
 export default function FloatingButton() {
   const handleClick = async () => {
     try {
-      // Define a new empty note with the type INoteInput
+      // Define a new empty note with the type INote
       const newNote: INote = {
         id: '',
         title: '1',
@@ -24,15 +24,13 @@ export default function FloatingButton() {
         console.error('Validation errors:', error?.errors) // Log the validation errors
       }
     } finally {
-      // Close the mongoose connection
-      // mongoose.connection.close();
     }
   }
 
   return (
     <div className='fixed bottom-4 right-4'>
       <button
-        className='btn btn-circle btn-primary text-4xl'
+        className='btn btn-circle btn-primary text-2xl'
         onClick={handleClick}
       >
         +

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { TrashIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/app/ui/button'
 import DeleteButton from '@/app/ui/buttons/cardDeleteButton'
+import EditButton from '@/app/ui/buttons/cardEditButton'
 
 type NoteCardProps = {
   id: string
@@ -26,7 +27,10 @@ export default function NoteCard({
       <div className='card-body p-3'>
         <div className='flex justify-between'>
           <span className='text-gray-500 text-sm'>{date}</span>
-          <DeleteButton id={id} />
+          <div className='flex gap-3'>
+            <DeleteButton id={id} />
+            <EditButton id={id} />
+          </div>
         </div>
         <Link href={`/notes/${id}`}>
           <h2 className='card-title'>{title}</h2>

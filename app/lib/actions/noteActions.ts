@@ -55,6 +55,8 @@ export const deleteNoteById = async (
 
     const deletedNote = await Note.findByIdAndDelete(id)
     if (!deletedNote) {
+      revalidatePath('/notes')
+      revalidatePath(`/notes/${id}`)
       throw new Error('Note not found')
     }
 
